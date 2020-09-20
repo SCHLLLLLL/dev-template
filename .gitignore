@@ -1,0 +1,5 @@
+**/target/
+data/
+LOG_HOME_IS_UNDEFINED/
+.idea/
+**/*.iml
