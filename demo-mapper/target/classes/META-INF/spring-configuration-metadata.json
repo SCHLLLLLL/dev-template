@@ -1,0 +1,17 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.day1.demo.mapper.config.datasource.DruidDataSourceConfig",
+      "name": "spring.datasource",
+      "type": "com.day1.demo.mapper.config.datasource.DruidDataSourceConfig"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.day1.demo.mapper.config.datasource.DruidDataSourceConfig",
+      "name": "spring.datasource.druid",
+      "type": "com.alibaba.druid.pool.DruidDataSource"
+    }
+  ]
+}
