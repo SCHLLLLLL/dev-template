@@ -1,4 +1,4 @@
-package com.day1.demo.mapper.common.config;
+package com.day1.demo.common.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;

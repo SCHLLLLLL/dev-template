@@ -1,4 +1,4 @@
-package com.day1.demo.mapper.common.enums;
+package com.day1.demo.common.enums;
 
 import lombok.Getter;
 

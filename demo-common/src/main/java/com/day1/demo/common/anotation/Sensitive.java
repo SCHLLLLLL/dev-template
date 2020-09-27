@@ -1,6 +1,6 @@
-package com.day1.demo.mapper.common.anotation;
+package com.day1.demo.common.anotation;
 
-import com.day1.demo.mapper.common.enums.SensitiveTypeEnum;
+import com.day1.demo.common.enums.SensitiveTypeEnum;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
