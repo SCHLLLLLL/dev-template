@@ -1,4 +1,4 @@
-package com.day1.demo.mapper.common.config;
+package com.day1.demo.common.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -68,7 +68,6 @@ public class RestTemplateConfig {
     @Bean
     public ClientHttpRequestFactory httpRequestFactory() {
         return new HttpComponentsClientHttpRequestFactory(httpClient());
-
     }
 
     @Bean

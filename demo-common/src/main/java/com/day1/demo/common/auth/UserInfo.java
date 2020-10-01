@@ -17,6 +17,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class UserInfo implements Serializable {
 
+    private static final long serialVersionUID = 5454155825314635342L;
+
     @ApiModelProperty("用户Id")
     private Long userId;
 
