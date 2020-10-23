@@ -1,5 +1,6 @@
-package com.day1.demo.mapper.common.config;
+package com.day1.demo.common.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -7,7 +8,6 @@ import org.redisson.config.SingleServerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
 
 /**
  * @author: Day1
@@ -35,10 +35,11 @@ public class RedissonConfig {
         String format = "redis://%s:%s";
         String address = String.format(format, host, port);
         SingleServerConfig singleServerConfig = config.useSingleServer().setAddress(address).setConnectionPoolSize(10);
-        if (!StringUtils.isEmpty(password)) {
+        if (!StringUtils.isBlank(password)) {
             singleServerConfig.setPassword(password);
         }
         singleServerConfig.setDatabase(database);
+        @SuppressWarnings("UnnecessaryLocalVariable")
         RedissonClient redissonClient = Redisson.create(config);
         return redissonClient;
     }
