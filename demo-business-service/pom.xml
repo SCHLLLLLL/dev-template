@@ -35,6 +35,7 @@
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>
