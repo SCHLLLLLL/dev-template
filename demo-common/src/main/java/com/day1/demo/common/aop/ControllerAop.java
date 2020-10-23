@@ -1,5 +1,6 @@
 package com.day1.demo.common.aop;
 
+import com.alibaba.fastjson.JSON;
 import com.day1.demo.common.exception.BaseException;
 import com.day1.demo.common.exception.ExceptionType;
 import com.day1.demo.common.inout.BaseRequest;
@@ -11,13 +12,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: LinHangHui
@@ -35,8 +45,8 @@ public class ControllerAop {
 
     private static final ThreadLocal<Long> ELAPSE = new ThreadLocal<>();
 
-    @Value(("log.show:true"))
-    private Boolean logShow = true;
+    @Value(value = "${log.show:true}")
+    private boolean logShow;
 
     @Pointcut(value = "execution(* com.day1.demo.*.controller..*.*(..))")
     private void webAop() {}
@@ -46,9 +56,40 @@ public class ControllerAop {
         ELAPSE.set(System.currentTimeMillis());
     }
 
-    @AfterReturning(value = "webAop()", argNames = "joinPoint,object", returning = "object")
-    private void doAfterRunning(JoinPoint joinPoint, Object object) {
+    @AfterReturning(value = "webAop()", argNames = "joinPoint,retVl", returning = "retVl")
+    private void doAfterRunning(JoinPoint joinPoint, Object retVl) {
+        if (!logShow) {
+            return;
+        }
+        try {
+            RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+            ServletRequestAttributes sra = (ServletRequestAttributes) ra;
+            if (sra == null) {
+                return;
+            }
+            HttpServletRequest request = sra.getRequest();
+            Class<?> clazz = joinPoint.getTarget().getClass();
+            Method method = this.getMethod(joinPoint);
+            Map<String, String> map = this.getHeadersInfo(request);
+            StringBuffer sb = new StringBuffer("\n");
 
+            sb.append("请求类:").append(clazz.getName()).append("\n");
+            sb.append("请求方法:").append(method.getName()).append("\n");
+            sb.append("请求head:").append(JSON.toJSONString(map)).append("\n");
+            Object[] params = joinPoint.getArgs();
+            if (params.length != 0) {
+                for (Object object : params) {
+                    if (object instanceof BaseRequest) {
+                        sb.append("请求参数").append(JSON.toJSONString(object)).append("\n");
+                    }
+                }
+            }
+            sb.append("返回参数:").append(JSON.toJSONString(retVl)).append("\n");
+            sb.append("响应时间:").append(System.currentTimeMillis() - ELAPSE.get()).append("\n");
+            log.info("\n请求日志：{}", sb);
+        } catch (Exception e) {
+            log.warn("内部异常:{},{}", e.getMessage(), e);
+        }
     }
 
     @Around("webAop()")
@@ -83,5 +124,21 @@ public class ControllerAop {
         } catch (IllegalArgumentException illegalArgumentException) {
         }
         return result;
+    }
+
+    public Method getMethod(JoinPoint pjp) {
+        MethodSignature signature = (MethodSignature) pjp.getSignature();
+        return signature.getMethod();
+    }
+
+    private Map<String, String> getHeadersInfo(HttpServletRequest request) {
+        Map<String, String> map = new HashMap<>(16);
+        Enumeration<?> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+            map.put(key, value);
+        }
+        return map;
     }
 }
