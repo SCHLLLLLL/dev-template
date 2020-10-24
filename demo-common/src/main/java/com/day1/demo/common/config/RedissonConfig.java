@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @Date: 2020/9/14 10:30
  * @Description:
  */
+@SuppressWarnings("SpellCheckingInspection")
 @Configuration
 public class RedissonConfig {
 
@@ -23,8 +24,8 @@ public class RedissonConfig {
     @Value("${spring.redis.port}")
     private Integer port;
 
-    @Value("${spring.redis.password}")
-    private String password;
+//    @Value("${spring.redis.password}")
+//    private String password;
 
     @Value(value = "#{${spring.redis.database}}")
     private int database;
@@ -35,9 +36,9 @@ public class RedissonConfig {
         String format = "redis://%s:%s";
         String address = String.format(format, host, port);
         SingleServerConfig singleServerConfig = config.useSingleServer().setAddress(address).setConnectionPoolSize(10);
-        if (!StringUtils.isBlank(password)) {
-            singleServerConfig.setPassword(password);
-        }
+//        if (!StringUtils.isBlank(password)) {
+//            singleServerConfig.setPassword(password);
+//        }
         singleServerConfig.setDatabase(database);
         @SuppressWarnings("UnnecessaryLocalVariable")
         RedissonClient redissonClient = Redisson.create(config);
