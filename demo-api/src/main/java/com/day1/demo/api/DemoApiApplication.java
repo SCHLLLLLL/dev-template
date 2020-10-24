@@ -2,6 +2,7 @@ package com.day1.demo.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author: LinHangHui
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Description:
  */
 @SpringBootApplication
+@ComponentScan(basePackages = "com.day1.demo.*")
 public class DemoApiApplication {
 
     public static void main(String[] args) {

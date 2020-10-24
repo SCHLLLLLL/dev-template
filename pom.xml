@@ -31,6 +31,7 @@
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
         <java-jwt.version>3.2.0</java-jwt.version>
         <shiro-spring.version>1.4.0</shiro-spring.version>
+        <sharding-jdbc.version>3.1.0</sharding-jdbc.version>
         <xxl-job-core.version>2.0.2</xxl-job-core.version>
         <guava.version>28.2-jre</guava.version>
         <knife4j-spring-boot-starter.version>2.0.1</knife4j-spring-boot-starter.version>
@@ -161,11 +162,17 @@
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job-core.version}</version>
             </dependency>
-            <!-- mybatis plus -->
+
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus-boot-starter.version}</version>
+            </dependency>
+            <!-- 数据库中间件 -->
+            <dependency>
+                <groupId>io.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-core</artifactId>
+                <version>${sharding-jdbc.version}</version>
             </dependency>
             <!-- 缓存 -->
             <dependency>
