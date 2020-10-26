@@ -25,7 +25,7 @@ public class AuthUtil {
     static {
         try {
             // 加密密文，私钥
-            String authSecret = "";
+            String authSecret = "linhanghuidashuaibi";
             // 根据给定的字节数组使用加密算法构造一个密钥
             secretKey = new SecretKeySpec(authSecret.getBytes(), SIGNATURE_ALGORITHM.getJcaName());
             log.info(" init AuthUtil ^_^  {}",authSecret);
