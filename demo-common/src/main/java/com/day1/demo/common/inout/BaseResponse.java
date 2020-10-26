@@ -47,6 +47,7 @@ public class BaseResponse<T> {
 
     public static <T>BaseResponse<T> valueOfSuccess(String msg) {
         BaseResponse<T> baseResponse = new BaseResponse<>();
+        baseResponse.setMsg(msg);
         baseResponse.setTimestamp(System.currentTimeMillis());
         return baseResponse;
     }
