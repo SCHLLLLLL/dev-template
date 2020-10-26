@@ -1,7 +1,92 @@
+server:
+  port: 7980
+  servlet:
+    context-path: /demo
+
+spring.profiles.active: dev
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&useSSL=true
-    username: root
-    password: Aa8711591
+    driverClassName: com.mysql.jdbc.Driver
+    druid:
+      test-on-borrow: false
+      test-while-idle: false
+      test-on-return: false
+      validation-query: SELECT 1
+      max-active: 4
+      initial-size: 4
+      max-wait: 3000
+      min-idle: 3
+      time-between-eviction-runs-millis: 3000
+      min-evictable-idle-time-millis: 300000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  redis:
+    host: 127.0.0.1
+    host-name: ${spring.redis.host}
+    port: 6379
+    database: 1
+    pool:
+      # 控制一个pool可分配多少个jedis实例
+      max-active: -1
+      # 最大活动对象数
+      max-total: 1000
+      # 最大能够保持idel状态的连接数
+      max-idle: 100
+      # 最小能够保持idel状态的连接数
+      min-idle: 10
+      # 当池内没有返回对象时，最大等待时间
+      max-wait-millis: 10000
+
+sharding:
+  jdbc:
+    master-slave-rule:
+      ###配置从库选择策略，提供轮询与随机(random)，这里选择用轮询 如果从做了集群 查询时候做轮训查询
+      load-balance-algorithm-type: round_robin
+      name: ms
+      ####指定主库
+      master-data-source-name: master
+      ####指定从数据库 如果多个从 用逗号隔开
+      slave-data-source-names: slave_0
+    props:
+      # 开启SQL显示，默认值: false，注意：仅配置读写分离时不会打印日志！！！
+      sql:
+        show: true
+    data-sources:
+      # 配置主库
+      master: #org.apache.tomcat.jdbc.pool.DataSource
+        type: org.apache.commons.dbcp2.BasicDataSource
+        url: jdbc:mysql://112.124.12.104:3306/demo?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: Aa8711591
+        #最大连接数
+        maxPoolSize: 20
+      slave_0: # 配置第一个从库
+        type: org.apache.commons.dbcp2.BasicDataSource
+        url: jdbc:mysql://112.124.12.104:33061/demo?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT
+        username: demo
+        password: Aa8711591
+        maxPoolSize: 20
+
+mybatis-plus:
+  configuration:
+    #mybatis-plus配置控制台打印完整带参数SQL语句
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #数据库映射enum扫描地址
+  typeEnumsPackage: com.ds.prj.**.enums
+  mapper-locations: classpath*:/mapper/**/*.xml
+
+log:
+  show: true

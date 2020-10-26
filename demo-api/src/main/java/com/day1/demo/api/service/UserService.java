@@ -1,5 +1,11 @@
 package com.day1.demo.api.service;
 
+import com.day1.demo.common.auth.TokenService;
+import com.day1.demo.common.auth.UserInfo;
+import com.day1.demo.mapper.model.DMUser;
+import com.day1.demo.mapper.service.DmUserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,5 +14,18 @@ import org.springframework.stereotype.Service;
  * @Description:
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
+
+    private final DmUserService dsUserService;
+
+    public String buildToken(Long userId) {
+        DMUser dmUser = dsUserService.getById(userId);
+        return buildToken(dmUser);
+    }
+
+    public String buildToken(DMUser dmUser) {
+        return TokenService.createToken(UserInfo.builder().userId(dmUser.getId()).
+                nickName(dmUser.getNickName()).build());
+    }
 }
