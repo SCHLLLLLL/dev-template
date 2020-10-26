@@ -56,6 +56,7 @@ public class ControllerAop {
         ELAPSE.set(System.currentTimeMillis());
     }
 
+    //returning值:给被增强方法返回值取个名字,给后面引用;argNames值:方法入参的名字
     @AfterReturning(value = "webAop()", argNames = "joinPoint,retVl", returning = "retVl")
     private void doAfterRunning(JoinPoint joinPoint, Object retVl) {
         if (!logShow) {
