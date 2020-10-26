@@ -3,7 +3,7 @@ server:
   servlet:
     context-path: /demo
 
-spring.profiles.active: dev
+spring.profiles.active: test
 
 spring:
   datasource:
@@ -68,14 +68,14 @@ sharding:
       # 配置主库
       master: #org.apache.tomcat.jdbc.pool.DataSource
         type: org.apache.commons.dbcp2.BasicDataSource
-        url: jdbc:mysql://112.124.12.104:3306/demo?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        url: jdbc:mysql://112.124.12.104:3306/test?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
         username: root
         password: Aa8711591
         #最大连接数
         maxPoolSize: 20
       slave_0: # 配置第一个从库
         type: org.apache.commons.dbcp2.BasicDataSource
-        url: jdbc:mysql://112.124.12.104:33061/demo?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT
+        url: jdbc:mysql://112.124.12.104:33061/test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT
         username: demo
         password: Aa8711591
         maxPoolSize: 20
