@@ -1,8 +1,8 @@
-package com.day1.demo.api.config;
+package com.day1.demo.inner.config;
 
-import com.day1.demo.api.interceptor.TokenInterceptor;
 import com.day1.demo.common.exception.ExceptionType;
 import com.day1.demo.common.exception.IExceptionType;
+import com.day1.demo.inner.interceptor.TokenInterceptor;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.base.Predicates;
 import io.swagger.annotations.ApiOperation;
