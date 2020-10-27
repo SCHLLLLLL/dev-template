@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @Description:
  */
 @SpringBootApplication
-@ComponentScan(basePackages = "com.day1.demo.*")
+@ComponentScan(basePackages = {"com.day1.demo.*"})
 public class DemoApiApplication {
 
     public static void main(String[] args) {

@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
 
-    private final DmUserService dsUserService;
+    private final DmUserService dmUserService;
 
     public String buildToken(Long userId) {
-        DMUser dmUser = dsUserService.getById(userId);
+        DMUser dmUser = dmUserService.getById(userId);
         return buildToken(dmUser);
     }
 
