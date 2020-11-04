@@ -15,6 +15,10 @@ public enum DemoLoggerEnum {
     /**
      *
      */
+    WARN("普通警告"),
+    /**
+     *
+     */
     TOKEN_EXCEPTION("token生成异常"),
     /**
      *

@@ -6,6 +6,7 @@ import com.day1.demo.common.exception.ExceptionType;
 import com.day1.demo.common.inout.BaseRequest;
 import com.day1.demo.common.inout.BaseResponse;
 import com.day1.demo.common.logback.DemoLoggerEnum;
+import com.day1.demo.common.logback.log.DemoLogger;
 import com.day1.demo.common.logback.utils.CheckParamUtils;
 import com.google.common.util.concurrent.RateLimiter;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +38,9 @@ import java.util.Map;
 @Aspect
 @Component
 @Order(2)
-@Slf4j
 public class ControllerAop {
+
+    private DemoLogger demoLogger = new DemoLogger(this.getClass());
 
     //限流
     private static final RateLimiter rateLimiter = RateLimiter.create(3000);
@@ -81,15 +83,15 @@ public class ControllerAop {
             if (params.length != 0) {
                 for (Object object : params) {
                     if (object instanceof BaseRequest) {
-                        sb.append("请求参数").append(JSON.toJSONString(object)).append("\n");
+                        sb.append("请求参数:").append(JSON.toJSONString(object)).append("\n");
                     }
                 }
             }
             sb.append("返回参数:").append(JSON.toJSONString(retVl)).append("\n");
             sb.append("响应时间:").append(System.currentTimeMillis() - ELAPSE.get()).append("\n");
-            log.info("\n请求日志：{}", sb);
+            demoLogger.info("\n请求日志：{}", sb);
         } catch (Exception e) {
-            log.warn("内部异常:{},{}", e.getMessage(), e);
+            demoLogger.warn("内部异常:{},{}", e.getMessage(), e);
         }
     }
 
@@ -111,7 +113,7 @@ public class ControllerAop {
                     List<String> errors = CheckParamUtils.check(param);
                     if (errors != null) {
                         String message = errors.toString();
-                        log.warn("接口访问失败:{}", message);
+                        demoLogger.warn("接口访问失败:{}", message);
                         return BaseResponse.valueOfError(ExceptionType.PARAM_INVALID);
                     }
                 }
@@ -120,9 +122,11 @@ public class ControllerAop {
         } catch (BaseException e) {
             return BaseResponse.valueOfError(e);
         } catch (DataAccessException de) {
-            log.error(DemoLoggerEnum.DB_ERROR + "原因：{}，\n报文：{}", de.getMessage(), de);
+            demoLogger.error(DemoLoggerEnum.DB_ERROR , "原因：{}，\n报文：{}", de.getMessage(), de);
             return BaseResponse.valueOfError(ExceptionType.SYSTEM_ERROR);
         } catch (IllegalArgumentException illegalArgumentException) {
+            demoLogger.error(DemoLoggerEnum.GLOBAL_EXCEPTION, "断言异常:{}", illegalArgumentException);
+            return BaseResponse.valueOfError(ExceptionType.SYSTEM_ERROR, illegalArgumentException.getMessage());
         }
         return result;
     }
