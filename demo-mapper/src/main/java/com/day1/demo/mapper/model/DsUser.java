@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Data
 @TableName(value = "demo_user")
-public class DMUser implements Serializable {
+public class DsUser implements Serializable {
 
     private static final long serializableUID = 129878173650031594L;
 

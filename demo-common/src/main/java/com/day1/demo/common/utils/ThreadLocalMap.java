@@ -20,16 +20,34 @@ public class ThreadLocalMap {
         return THREAD_CONTEXT.get();
     }
 
+
+    /**
+     *
+     * @param key
+     * @return
+     */
+    public static Object get(String key) {
+        return getContext().get(key);
+    }
+
+    /**
+     *
+     * @param key
+     * @param value
+     */
     public static void pull(String key, Object value) {
         getContext().put(key,value);
     }
 
+    /**
+     *
+     */
     public static void remove() {
         THREAD_CONTEXT.remove();
     }
 
-    public static Object get(String key) {
-        return getContext().get(key);
+    public static void remove(String key) {
+        getContext().remove(key);
     }
 
 

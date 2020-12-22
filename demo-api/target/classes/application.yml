@@ -80,6 +80,14 @@ sharding:
         password: Aa8711591
         maxPoolSize: 20
 
+component:
+  sms:
+    regionId: cn-hangzhou
+    accessKeyId: LTAIatOtKznAyvgE
+    accessSecret: odUfkIHldsW358HHsZmX5XnNCbCAJt
+    templateCode: SMS_205399004
+    signName: Tristarossa
+
 mybatis-plus:
   configuration:
     #mybatis-plus配置控制台打印完整带参数SQL语句

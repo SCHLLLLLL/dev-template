@@ -1,37 +1,49 @@
 package com.day1.demo.common.utils;
 
 import com.alibaba.fastjson.JSON;
-import lombok.extern.slf4j.Slf4j;
+import com.day1.demo.common.logback.DemoLoggerEnum;
+import com.day1.demo.common.logback.log.DemoLogger;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import static com.day1.demo.common.logback.DemoLoggerEnum.CACHE_LOCK_EXCEPTION;
 
 /**
  * @author: LinHangHui
  * @Date: 2020/10/27 18:00
  */
-@Service
-@Slf4j
 public class CacheUtilService {
+
+    private final static DemoLogger logger = new DemoLogger(CacheUtilService.class);
 
     private static RedisTemplate redisTemplate;
     private static RedissonClient redissonClient;
 
     @Autowired
     public CacheUtilService(RedisTemplate redisTemplate, RedissonClient redissonClient) {
-        this.redisTemplate = redisTemplate;
-        this.redissonClient = redissonClient;
+        CacheUtilService.redisTemplate = redisTemplate;
+        CacheUtilService.redissonClient = redissonClient;
     }
 
     public static boolean tryLock(String key, Long liveTime, Long waitTime) {
         try {
             return redissonClient.getLock(key).tryLock(waitTime, liveTime, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            log.error("获取缓存锁异常:key:{}", key);
+            logger.error(CACHE_LOCK_EXCEPTION, "key:", key);
+        }
+        return false;
+    }
+
+    public static boolean tryLock(String key, Long liveTime) {
+
+        try {
+            return redissonClient.getLock(key).tryLock(0, liveTime, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            logger.error(DemoLoggerEnum.CACHE_LOCK_EXCEPTION, "key:", key);
         }
         return false;
     }
@@ -40,7 +52,7 @@ public class CacheUtilService {
         try {
             redissonClient.getLock(key).unlock();
         } catch (Exception e) {
-            log.error("解锁失败:key:{}", key);
+            logger.error(CACHE_LOCK_EXCEPTION, "key:", key);
         }
     }
 
@@ -69,5 +81,16 @@ public class CacheUtilService {
 
     public static void setJson(String key, Object value, int timeout, TimeUnit timeUnit) {
         redisTemplate.opsForValue().set(key, JSON.toJSONString(value), timeout, timeUnit);
+    }
+
+
+
+
+
+
+
+    @SuppressWarnings("unchecked")
+    public static void delKey(String key) {
+        redisTemplate.delete(key);
     }
 }

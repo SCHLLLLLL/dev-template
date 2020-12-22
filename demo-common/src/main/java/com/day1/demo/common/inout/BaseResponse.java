@@ -38,6 +38,12 @@ public class BaseResponse<T> {
         return this.code == exceptionType.getCode();
     }
 
+    public static <T>BaseResponse<T> valueOfSuccess() {
+        BaseResponse<T> baseResponse = new BaseResponse<>();
+        baseResponse.setTimestamp(System.currentTimeMillis());
+        return baseResponse;
+    }
+
     public static <T>BaseResponse<T> valueOfSuccess(T data) {
         BaseResponse<T> baseResponse = new BaseResponse<>();
         baseResponse.setData(data);

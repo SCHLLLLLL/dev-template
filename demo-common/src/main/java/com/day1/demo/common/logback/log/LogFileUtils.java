@@ -1,6 +1,8 @@
 package com.day1.demo.common.logback.log;
 
 
+import com.day1.demo.common.logback.request.BrowserTypeUtils;
+import com.day1.demo.common.logback.request.RequestUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -43,7 +45,6 @@ public class LogFileUtils {
         private String clazz;
         private String level;
         private String ip;
-        private String browsertype;
         private String targetUrl;
         private String pathUrl;
         private String message;
@@ -64,7 +65,14 @@ public class LogFileUtils {
             if (null != RequestContextHolder.getRequestAttributes()) {
                 HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
                 String url = request.getRequestURL().toString() + (StringUtils.isNotEmpty(request.getQueryString()) ? request.getQueryString() : "");
+                String targetUrl = request.getHeader("target-url");
+                String pathUrl = request.getHeader("path-url");
+                msgLogBean.setBrowserType(BrowserTypeUtils.getBrowserType().name());
+                msgLogBean.setIp(RequestUtils.getRemoteAddr());
+                msgLogBean.setUa(RequestUtils.getUA());
                 msgLogBean.setUrl(url);
+                msgLogBean.setTargetUrl(targetUrl);
+                msgLogBean.setPathUrl(pathUrl);
             }
             return msgLogBean;
         }
@@ -104,14 +112,14 @@ public class LogFileUtils {
                     .append("\"userId\": \"" + getUserId() + "\", ")
                     .append("\"ip\": \"" + getIp() + "\", ")
                     .append("\"clazz\": \"" + getClazz() + "\", ")
-                    .append("\"browsertype\": \"" + getBrowsertype() + "\", ")
+                    .append("\"browsertype\": \"" + getBrowserType() + "\", ")
                     .append("\"time\": \"" + getTime() + "\", ")
                     .append("\"ua\": \"" + getUa() + "\", ")
                     .append("\"targetUrl\": \"" + getTargetUrl() + "\", ")
                     .append("\"pathUrl\": \"" + getPathUrl() + "\", ")
                     .append("\"traceId\": \"" + getTraceId() + "\", ")
                     .append("\"title\": \"" + getTitle() + "\", ");
-            if (env.equals("pro")) {
+            if ("pro".equals(env)) {
                 //阿里云日志需要特殊处理
                 tsb.append("\"message\": \"" + StringEscapeUtils.escapeJson(getMessage()) + "\"");
             } else {

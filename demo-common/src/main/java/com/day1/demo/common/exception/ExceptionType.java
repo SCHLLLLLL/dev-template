@@ -23,7 +23,7 @@ public enum ExceptionType implements IExceptionType{
 
     TOKEN_TIME_OUT_ERROR(502, "token已经过期", "token已经过期"),
 
-    TOKEN_INVLID_ERROR(503, "token不合法", "非法操作"),
+    TOKEN_INVALID_ERROR(503, "token不合法", "非法操作"),
 
     OPERATE_ERROR(507, "非法操作", "非法操作"),
 
@@ -35,6 +35,15 @@ public enum ExceptionType implements IExceptionType{
 
     NET_WORK_ERROR(510, "网络异常,请稍后重试", "网络异常,请稍后重试"),
 
+
+
+
+    CALL_OVER_LIMIT(535, "调用次数超过上限", "调用次数超过上限"),
+
+
+    /*** ---------以下是独立的业务状态码------- ***/
+
+    GOODS_ID_EMPTY_ERROR(400100001, "商品id为空", "商品id为空"),
     ;
 
 

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -50,6 +51,7 @@ public class RestTemplateConfig {
                 StringHttpMessageConverter targetConverter = (StringHttpMessageConverter) converter;
                 targetConverter.setDefaultCharset(StandardCharsets.UTF_8);
             } else if (converter instanceof MappingJackson2HttpMessageConverter) {
+                //rest默认使用jackson进行json格式解析
                 ObjectMapper objectMapper = new ObjectMapper();
                 objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
                 objectMapper.setTimeZone(TimeZone.getTimeZone("Asia/Chongqing"));
@@ -61,7 +63,10 @@ public class RestTemplateConfig {
 
             }
         }
+
         restTemplate.setInterceptors(Collections.singletonList(restTemplateTimeInterceptor));
+        //加了拦截器后，消费了body，这样消费了流 后面是读不到数据的
+        restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(httpRequestFactory()));
         return restTemplate;
     }
 

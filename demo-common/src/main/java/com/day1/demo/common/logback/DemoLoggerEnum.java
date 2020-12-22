@@ -23,6 +23,10 @@ public enum DemoLoggerEnum {
     /**
      *
      */
+    CACHE_LOCK_EXCEPTION("获取缓存锁异常"),
+    /**
+     *
+     */
     DB_ERROR("数据库操作异常"),
     /**
      *

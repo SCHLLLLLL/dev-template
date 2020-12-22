@@ -14,21 +14,30 @@ public interface BaseEnum {
 
     /**
      * 获取枚举值
+     * @return 获取枚举值
      */
     Integer getCode();
 
     /**
      * 获取枚举提示
+     * @return 获取枚举提示
      */
     String getMsg();
+
     /**
      * 获取枚举描述
+     * @return 获取枚举描述
      */
     default String getDesc(){
         return getMsg();
     }
+
     /**
      * 获取枚举实现类
+     * @param enumClass enumClass
+     * @param code code
+     * @param <E> E
+     * @return
      */
     static <E extends Enum<?> & BaseEnum> E get(Class<E> enumClass, Integer code) {
         return Arrays.stream(enumClass.getEnumConstants())
@@ -38,6 +47,10 @@ public interface BaseEnum {
 
     /**
      * 获取枚举实现类
+     * @param enumClass enumClass
+     * @param msg msg
+     * @param <E> E
+     * @return
      */
     static <E extends Enum<?> & BaseEnum> E get(Class<E> enumClass, String msg) {
         if (StringUtils.isBlank(msg)) {

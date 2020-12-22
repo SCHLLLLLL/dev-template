@@ -2,12 +2,10 @@ package com.day1.demo.common.logback.log;
 
 import com.day1.demo.common.logback.DemoLoggerEnum;
 import com.day1.demo.common.logback.utils.exception.ExceptionUtils;
-import com.mysql.jdbc.log.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
-import org.springframework.dao.DataAccessException;
 
 /**
  * @author: LinHangHui

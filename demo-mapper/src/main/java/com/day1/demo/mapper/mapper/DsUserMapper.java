@@ -1,7 +1,7 @@
 package com.day1.demo.mapper.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.day1.demo.mapper.model.DMUser;
+import com.day1.demo.mapper.model.DsUser;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @Date: 2020/10/24 18:49
  */
 @Mapper
-public interface DmUserMapper extends BaseMapper<DMUser> {
+public interface DsUserMapper extends BaseMapper<DsUser> {
 }

@@ -2,12 +2,32 @@
   "hints": [],
   "groups": [
     {
+      "sourceType": "com.day1.demo.mapper.config.datasource.ShardingMasterSlaveConfig",
+      "name": "sharding.jdbc",
+      "type": "com.day1.demo.mapper.config.datasource.ShardingMasterSlaveConfig"
+    },
+    {
       "sourceType": "com.day1.demo.mapper.config.datasource.DruidDataSourceConfig",
       "name": "spring.datasource",
       "type": "com.day1.demo.mapper.config.datasource.DruidDataSourceConfig"
     }
   ],
   "properties": [
+    {
+      "sourceType": "com.day1.demo.mapper.config.datasource.ShardingMasterSlaveConfig",
+      "name": "sharding.jdbc.data-sources",
+      "type": "java.util.Map<java.lang.String,com.alibaba.druid.pool.DruidDataSource>"
+    },
+    {
+      "sourceType": "com.day1.demo.mapper.config.datasource.ShardingMasterSlaveConfig",
+      "name": "sharding.jdbc.master-slave-rule",
+      "type": "io.shardingsphere.api.config.rule.MasterSlaveRuleConfiguration"
+    },
+    {
+      "sourceType": "com.day1.demo.mapper.config.datasource.ShardingMasterSlaveConfig",
+      "name": "sharding.jdbc.props",
+      "type": "java.util.Properties"
+    },
     {
       "sourceType": "com.day1.demo.mapper.config.datasource.DruidDataSourceConfig",
       "name": "spring.datasource.druid",
