@@ -83,10 +83,10 @@ sharding:
 component:
   sms:
     regionId: cn-hangzhou
-    accessKeyId: LTAIatOtKznAyvgE
-    accessSecret: odUfkIHldsW358HHsZmX5XnNCbCAJt
+    accessKeyId: 
+    accessSecret: 
     templateCode: SMS_205399004
-    signName: Tristarossa
+    signName: 
 
 mybatis-plus:
   configuration:

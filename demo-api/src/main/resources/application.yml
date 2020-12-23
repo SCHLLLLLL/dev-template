@@ -1,7 +1,7 @@
 server:
   port: 7980
   servlet:
-    context-path: /demo
+    context-path: /demo-api
 
 spring.profiles.active: dev
 
@@ -79,6 +79,14 @@ sharding:
         username: demo
         password: Aa8711591
         maxPoolSize: 20
+
+component:
+  sms:
+    regionId: cn-hangzhou
+    accessKeyId: LTAIatOtKznAyvgE
+    accessSecret: odUfkIHldsW358HHsZmX5XnNCbCAJt
+    templateCode: SMS_205399004
+    signName: Tristarossa
 
 mybatis-plus:
   configuration:
