@@ -1,6 +1,6 @@
-**/target/
-data/
-LOG_HOME_IS_UNDEFINED/
-.idea/
-**/*.iml
-target/
+*~
+.DS_Store
+**/target/**
+**/**.iml
+/.idea/
+**/data/logs/**
